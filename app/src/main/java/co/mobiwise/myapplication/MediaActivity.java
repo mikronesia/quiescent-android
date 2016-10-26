@@ -24,7 +24,6 @@ public class MediaActivity extends Activity implements MediaListener {
   String url2 = "http://earsnake.com/quiescent/light.mp3";*/
     SeekBar seekbar;
     Button button;
-    Button buttonNext;
     TextView textView;
     TextView textTrack;
     String url;
@@ -41,7 +40,6 @@ public class MediaActivity extends Activity implements MediaListener {
         seekbar = (SeekBar) findViewById(R.id.seekbar);
         seekbar.setEnabled(false);
         button = (Button) findViewById(R.id.buttoncontrol);
-        buttonNext = (Button) findViewById(R.id.buttonNext);
         textView = (TextView) findViewById(R.id.textstatus);
         textTrack = (TextView) findViewById(R.id.textTrack);
         array = getResources().getStringArray(R.array.songs_array);
@@ -60,15 +58,6 @@ public class MediaActivity extends Activity implements MediaListener {
             }
         });
 
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                track = array[new Random().nextInt(array.length)];
-                url = "http://earsnake.com/quiescent/" + track + ".mp3";
-                mediaManager.play(url);
-                textTrack.setText(track);
-            }
-        });
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

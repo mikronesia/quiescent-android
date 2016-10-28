@@ -1,13 +1,20 @@
 package co.mobiwise.myapplication;
-
 import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+
 
 import co.mobiwise.library.media.MediaListener;
 import co.mobiwise.library.media.MediaManager;
@@ -29,8 +36,9 @@ public class MediaActivity extends Activity implements MediaListener {
     String url;
     String track;
     String[] array;
-
     MediaManager mediaManager = MediaManager.with(this);
+    String playingStatus;
+    MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +47,27 @@ public class MediaActivity extends Activity implements MediaListener {
 
         seekbar = (SeekBar) findViewById(R.id.seekbar);
         seekbar.setEnabled(false);
-        button = (Button) findViewById(R.id.buttoncontrol);
+        button = (Button) findViewById(R.id.butPlay);
         textView = (TextView) findViewById(R.id.textstatus);
         textTrack = (TextView) findViewById(R.id.textTrack);
         array = getResources().getStringArray(R.array.songs_array);
-        track = array[new Random().nextInt(array.length)];
-        url = "http://earsnake.com/quiescent/" + track + ".mp3";
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaManager.isPlaying()) {
-                    mediaManager.pause();
-                } else {
-                    mediaManager.play(url);
-                    textTrack.setText(track);
-                }
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+                playingStatus = "paused";
+                button.setBackgroundResource(R.drawable.btn_playback_play);
+            } else {
+                playingStatus = "playing";
+                mPlayer.start();
+                button.setBackgroundResource(R.drawable.btn_playback_pause);
+            }
             }
         });
 
-
+        /*mediaManager.registerListener(this);*/
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -71,11 +80,54 @@ public class MediaActivity extends Activity implements MediaListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaManager.seekTo(seekBar.getProgress());
+                mPlayer.seekTo(seekBar.getProgress());
             }
         });
 
-        mediaManager.registerListener(this);
+        new CountDownTimer(1200000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                textView.setText("Minutes remaining: " + (millisUntilFinished / 1000)/60);
+            }
+
+            public void onFinish() {
+                textView.setText("done!");
+                button.setBackgroundResource(R.drawable.btn_playback_play);
+                mediaManager.disconnect();
+            }
+        }.start();
+
+        playNewTrack();
+
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                /*if (mp.isPlaying()) {
+                    //playNewTrack();*/
+                    textView.setText("FINISHED");
+                /*}*/
+            }
+        });
+    }
+
+    public void playNewTrack() {
+        track = array[new Random().nextInt(array.length)];
+        url = "http://earsnake.com/quiescent/" + track + ".m4a";
+        mPlayer = new MediaPlayer();
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mPlayer.setDataSource(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            mPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mPlayer.start();
+        textTrack.setText(track.toUpperCase());
+        button.setBackgroundResource(R.drawable.btn_playback_pause);
+        seekbar.setEnabled(true);
+        playingStatus = "paused";
     }
 
     @Override
@@ -95,8 +147,8 @@ public class MediaActivity extends Activity implements MediaListener {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                seekbar.setEnabled(false);
-                textView.setText("LOADING");
+            seekbar.setEnabled(false);
+            textView.setText("LOADING");
             }
         });
     }
@@ -106,9 +158,9 @@ public class MediaActivity extends Activity implements MediaListener {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                seekbar.setEnabled(true);
-                seekbar.setMax(totalDuration / 1000);
-                textView.setText("STARTED");
+            seekbar.setEnabled(true);
+            seekbar.setMax(totalDuration / 1000);
+            textView.setText("STARTED");
             }
         });
     }
@@ -119,7 +171,11 @@ public class MediaActivity extends Activity implements MediaListener {
             @Override
             public void run() {
                 textView.setText("STOPPED");
+                playNewTrack();
             }
         });
     }
+
+
+
 }

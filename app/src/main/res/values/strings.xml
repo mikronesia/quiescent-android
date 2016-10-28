@@ -3,10 +3,9 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="songs_array">
-        <item>light</item>
+        <item>cradle</item>
         <item>bud</item>
-        <item>lotus</item>
-        <item>tam</item>
+        <item>cake</item>
     </string-array>
 </resources>
 

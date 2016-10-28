@@ -8,12 +8,13 @@
     android:background="@color/primary_dark_material_dark">
 
     <Button
-        android:id="@+id/buttoncontrol"
+        android:id="@+id/butMore"
+        android:background="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/btn_playback_play"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/textstatus"
@@ -22,11 +23,10 @@
         android:text="STATUS : IDLE"
         android:gravity="center"
         android:textColor="@color/background_material_light"
-        android:layout_alignParentBottom="true"
+        android:elevation="24dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp"
-        android:elevation="24dp" />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:src="@drawable/stars"
@@ -38,27 +38,36 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/butMore"
-        android:background="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:id="@+id/textTrack"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
         android:textColor="@color/background_material_light"
-        android:layout_marginBottom="31dp"
+        android:layout_marginBottom="16dp"
         android:textSize="@dimen/abc_text_size_large_material"
         android:elevation="24dp"
-        android:layout_above="@+id/seekbar"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:src="@drawable/default_art"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/textstatus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/butPlay"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_playback_play"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
 
     <SeekBar
         android:id="@+id/seekbar"
@@ -67,9 +76,8 @@
         android:progressTint="#FFFFFF"
         android:progressBackgroundTint="#FFFFFF"
         android:elevation="24dp"
-        android:layout_above="@+id/textstatus"
+        android:layout_below="@+id/butPlay"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

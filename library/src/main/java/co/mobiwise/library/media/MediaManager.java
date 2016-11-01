@@ -107,6 +107,12 @@ public class MediaManager {
     return false;
   }
 
+  public int currentPos() {
+    if (isServiceConnected)
+      return mService.currentPos();
+    return 0;
+  }
+
   public void updateNotification(String singerName, String songName, int smallArt, int bigArt) {
     if (mService != null)
       mService.updateNotification(singerName, songName, smallArt, bigArt);

@@ -28,7 +28,8 @@ import co.mobiwise.library.R;
 public class MediaPlayerService extends Service implements
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnSeekCompleteListener,
-        MediaPlayer.OnCompletionListener{
+        MediaPlayer.OnCompletionListener
+        {
 
 
     /**
@@ -287,6 +288,12 @@ public class MediaPlayerService extends Service implements
 
     public boolean isPlaying() {
         return mState == State.PLAYING;
+    }
+
+    public int currentPos() {
+        if (mediaPlayer.isPlaying())
+            return mediaPlayer.getCurrentPosition();
+        return 0;
     }
 
     /**

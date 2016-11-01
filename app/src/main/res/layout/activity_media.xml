@@ -28,27 +28,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-<<<<<<< HEAD
-    <Button
-        android:id="@+id/butMore"
-        android:background="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-=======
-    <ImageView
-        android:src="@drawable/stars"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
->>>>>>> b601e011d8ebbdac768645bb401276003a55dd87
-
     <TextView
         android:id="@+id/textTrack"
         android:layout_width="match_parent"

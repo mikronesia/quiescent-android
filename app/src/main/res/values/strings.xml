@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quiescent</string>
+    <string name="app_name">SLUMBr</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="songs_array">
@@ -7,6 +7,8 @@
         <item>bud</item>
         <item>cake</item>
     </string-array>
+
+
 </resources>
 
 

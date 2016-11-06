@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sleepValues">
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+    </string-array>
+
+    <string-array name="sleepText">
+        <item>20 Minutes</item>
+        <item>40 Minutes </item>
+        <item>One Hour</item>
+        <item>90 Minutes</item>
+        <item>Two Hours</item>
+        <item>Four Hours</item>
+        <item>Six Hours</item>
+        <item>Eight Hours</item>
+    </string-array>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference android:title="Automatically Start Music"
+                        android:defaultValue="true"
+                        android:summary="This option if selected will start the music right away when you launch the application."
+                        android:key="autoPlay" />
+    <ListPreference     android:title="Automatically Stop Music Timer "
+                        android:summary="Select the the amount of time you want the music to shut off. We recommend letting it play all night while you sleep."
+                        android:key="autoShutOff"
+                        android:defaultValue="480"
+                        android:entries="@array/sleepText"
+                        android:entryValues="@array/sleepValues" />
+    <EditTextPreference android:title="Subscribe to find out about other Mikronesia Musical Experiences"
+                        android:key="email"
+                        android:summary="Please provide your email address">
+
+    </EditTextPreference>
+    <Preference android:title="Acts like a button"
+                android:key="myCoolButton"
+                android:summary="This is a cool button"/>
+</PreferenceScreen>
+

@@ -8,14 +8,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mikronesia.quiescent.MediaActivity"
-            android:label="@string/app_name" >
+            android:name="com.mikronesia.slumbr.MediaActivity"
+            android:label="SLUMBr" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.mikronesia.slumbr.PreferencesActivity"/>
 
         <!--<activity android:name=".MediaActivity"/>-->
     </application>

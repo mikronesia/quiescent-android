@@ -7,15 +7,6 @@
     android:orientation="vertical"
     android:background="@color/primary_dark_material_dark">
 
-    <Button
-        android:id="@+id/butMore"
-        android:background="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:id="@+id/textstatus"
         android:layout_width="match_parent"

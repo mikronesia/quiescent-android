@@ -1,12 +1,15 @@
-package com.mikronesia.quiescent;
+package com.mikronesia.slumbr;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +25,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.view.Menu;
+
 /**
  * Created by mertsimsek on 04/11/15.
  */
 public class MediaActivity extends Activity implements MediaListener {
 
     SeekBar seekbar;
-    Button button;
+    Button butPlay;
     TextView textView;
     TextView textTrack;
     String track;
@@ -36,6 +41,8 @@ public class MediaActivity extends Activity implements MediaListener {
     Boolean isPl;
     Integer mTrackLen;
     String url;
+    Intent mShareIntent;
+    private ShareActionProvider mShareActionProvider;
     private static String JSONurl = "http://earsnake.com/quiescent/tracks.json";
     MediaManager mediaManager = MediaManager.with(this);
 
@@ -44,16 +51,23 @@ public class MediaActivity extends Activity implements MediaListener {
         isPl = false;
         mTrackLen = 0;
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_media);
 
         seekbar = (SeekBar) findViewById(R.id.seekbar);
         seekbar.setEnabled(false);
-        button = (Button) findViewById(R.id.buttoncontrol);
+        butPlay = (Button) findViewById(R.id.butPlay);
         textView = (TextView) findViewById(R.id.textstatus);
         textTrack = (TextView) findViewById(R.id.textTrack);
+        super.onCreate(savedInstanceState);
+
+        mShareIntent = new Intent();
+        mShareIntent.setAction(Intent.ACTION_SEND);
+        mShareIntent.setType("text/plain");
+        mShareIntent.putExtra(Intent.EXTRA_TEXT, "From me to you, this text is new.");
 
         //Load tracks
-        button.setOnClickListener(new View.OnClickListener() {
+        butPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPl) {
@@ -108,19 +122,19 @@ public class MediaActivity extends Activity implements MediaListener {
         url = "http://earsnake.com/quiescent/"+track+".mp3";
         mediaManager.play(url);
         textTrack.setText(track);
-        button.setBackgroundResource(R.drawable.btn_playback_pause);
+        butPlay.setBackgroundResource(R.drawable.btn_playback_pause);
         isPl = true;
     }
 
     public void pauseTrack() {
         mediaManager.pause();
-        button.setBackgroundResource(R.drawable.btn_playback_play);
+        butPlay.setBackgroundResource(R.drawable.btn_playback_play);
         isPl = false;
     }
 
     public void resumeTrack() {
         mediaManager.resume();
-        button.setBackgroundResource(R.drawable.btn_playback_pause);
+        butPlay.setBackgroundResource(R.drawable.btn_playback_pause);
         isPl = true;
     }
 
@@ -171,10 +185,6 @@ public class MediaActivity extends Activity implements MediaListener {
             });
     }
 
-    private void getTracks() {
-
-    }
-
     private class getTracks extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... arg0) {
@@ -198,7 +208,6 @@ public class MediaActivity extends Activity implements MediaListener {
                     Log.e("TAG", "Json parsing error: " + e.getMessage());
                 }
             }
-
             return null;
         }
 
@@ -208,6 +217,45 @@ public class MediaActivity extends Activity implements MediaListener {
                 playNewTrack();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Find the MenuItem that we know has the ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Get its ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+        // Connect the dots: give the ShareActionProvider its Share Intent
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(mShareIntent);
+        }
+
+        // Return true so Android will know we want to display the menu
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+            {
+                Intent myIntent = new Intent( MediaActivity.this, PreferencesActivity.class );
+                MediaActivity.this.startActivity( myIntent );
+            }
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
 
 
 }
